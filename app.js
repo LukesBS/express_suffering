@@ -5,15 +5,24 @@ const express = require('express');
 // Erstellung des Express Servers und Zuweisung an eine Konstante "app"
 const app = express();
 
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+    windowsMs: 60*1000, // Zeitintervall 1 min
+    max: 2, // Maximal 2 Anfragen von einer IP innterhalb des Zeitintervall
+    message: "Zu viele Anfragen pro Zeit!"
+});
+
 // Festlegung des Ports in einer Konstanten für späteren Gebrauch
 const EXP_PORT = 8080
+app.use(limiter); // Jeder Request wird verarbeitet
 
 // Erlauben des statischen Zugriffs auf den Unterordner "public", indem
 // als Middleware die Methode "static" eingesetzt wird
 app.use(express.static('public'));
 
 // parsen der Body-Inhaltes und vorbereiten der Daten in req.body
-app.subscribe(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 
 //verarbeiten aller GET_Anfragen der Route /meineTestanfrage
 app.get("/meineTestanfrage", (req, res) => {
@@ -21,9 +30,9 @@ app.get("/meineTestanfrage", (req, res) => {
     res.send("Ich habe die Anfrage empfangen");
 });
 
-app.get(/\/[^\/]{3}.*/, (req, res) => {
-    res.send("Anfrage mit mind. drei Zeichen bis zum 1. Slash");
-});
+//app.get(/\/[^\/]{3}.*/, (req, res) => {
+//    res.send("Anfrage mit mind. drei Zeichen bis zum 1. Slash");
+//});
 
 app.get("/kunde/*", (req, res, next ) => {
     res.write("Kunde\n");
@@ -35,6 +44,17 @@ app.get("/kunde/anfrage", (req, res) => {
     res.write("Kunde und Anfrage");
     res.end();
 });
+
+app.get("/api/eins", (req, res, next) => {
+    res.send("eins");
+});
+app.get("/api/zwei", (req, res, next) => {
+    res.send("zwei");
+});
+app.get("/test", (req, res, next) => {
+    res.send("test");
+});
+
 
 
 app.get("/abteilung/:abteilungId/kunde/:kundeID", (req, res) => {
@@ -55,6 +75,10 @@ app.listen(EXP_PORT, () => {
 });
 app.post('/testMessage', function (req, res, next) {
     res.send("I recived: " + req.body.myMessage) ; 
+});
+
+app.post('/added_stuff', function (req, res, next) {
+    res.send("stuff added equals " + (parseInt(req.body.number1) + parseInt(req.body.number2)) ) ; 
 });
 
 

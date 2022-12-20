@@ -1,0 +1,16 @@
+{
+  "name": "myserver",
+  "version": "1.0.0",
+  "description": "asdf",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js",
+    "start": "nodemon app.js"
+  },
+  "author": "Luke",
+  "license": "ISC",
+  "dependencies": {
+    "epress": "^0.0.1-security",
+    "express": "^4.18.2"
+  }
+}

@@ -1,6 +1,7 @@
 // Laden der Funktion zur Erstellung eines Express Servers und Zuweisung
 // an eine Konstante "express"
 const express = require('express');
+const myMw = require("./myMW");
 
 // Erstellung des Express Servers und Zuweisung an eine Konstante "app"
 const app = express();
@@ -13,9 +14,12 @@ const limiter = rateLimit({
     message: "Zu viele Anfragen pro Zeit!"
 });
 
+
+
 // Festlegung des Ports in einer Konstanten für späteren Gebrauch
 const EXP_PORT = 8080
 app.use(limiter); // Jeder Request wird verarbeitet
+app.use("/api/", myMw);
 
 // Erlauben des statischen Zugriffs auf den Unterordner "public", indem
 // als Middleware die Methode "static" eingesetzt wird

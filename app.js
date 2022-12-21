@@ -2,6 +2,7 @@
 // an eine Konstante "express"
 const express = require('express');
 const myMw = require("./myMW");
+const myEmployeeRouters = require("./routes/Mitarbeiter");
 
 // Erstellung des Express Servers und Zuweisung an eine Konstante "app"
 const app = express();
@@ -10,7 +11,7 @@ const rateLimit = require("express-rate-limit");
 
 const limiter = rateLimit({
     windowsMs: 60*1000, // Zeitintervall 1 min
-    max: 20000, // Maximal 2 Anfragen von einer IP innterhalb des Zeitintervall
+    max: 2000, // Maximal 2 Anfragen von einer IP innterhalb des Zeitintervall
     message: "Zu viele Anfragen pro Zeit!"
 });
 
@@ -20,6 +21,7 @@ const limiter = rateLimit({
 const EXP_PORT = 8080
 app.use(limiter); // Jeder Request wird verarbeitet
 app.use("/api/", myMw);
+app.use("/api/mitarbeiter/", myEmployeeRouters);
 
 // Erlauben des statischen Zugriffs auf den Unterordner "public", indem
 // als Middleware die Methode "static" eingesetzt wird

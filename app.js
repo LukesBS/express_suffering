@@ -10,7 +10,7 @@ const rateLimit = require("express-rate-limit");
 
 const limiter = rateLimit({
     windowsMs: 60*1000, // Zeitintervall 1 min
-    max: 2, // Maximal 2 Anfragen von einer IP innterhalb des Zeitintervall
+    max: 20000, // Maximal 2 Anfragen von einer IP innterhalb des Zeitintervall
     message: "Zu viele Anfragen pro Zeit!"
 });
 
@@ -50,10 +50,12 @@ app.get("/kunde/anfrage", (req, res) => {
 });
 
 app.get("/api/eins", (req, res, next) => {
-    res.send("eins");
+    res.write("eins");
+    res.end();
 });
 app.get("/api/zwei", (req, res, next) => {
-    res.send("zwei");
+    res.write("zwei");
+    res.end();
 });
 app.get("/test", (req, res, next) => {
     res.send("test");

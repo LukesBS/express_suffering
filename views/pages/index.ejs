@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html lang="de">
+  <%- include("../partials/header", {hVersion: version}) %>
+
+  <body>
+    Hallo, <%= planet %>!
+    <% if(planet == "Welt") { %>
+      <p>Be down to earth</p>
+    <% } else { %>
+      <p>Fly to space</p>
+    <% } %> 
+    <% if (typeof trabanten != 'undefined') { %> Trabanten: <%
+    trabanten.forEach( trabant => { %>
+      <li><%= trabant %></li>
+    <% }); %> <% } %>
+  </body>
+</html>

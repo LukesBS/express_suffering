@@ -5,6 +5,7 @@ const myMw = require("./myMW");
 const myEmployeeRouters = require("./routes/Mitarbeiter");
 const addition = require("./routes/addition");
 
+
 // Erstellung des Express Servers und Zuweisung an eine Konstante "app"
 const app = express();
 
@@ -23,7 +24,7 @@ const EXP_PORT = 8080
 //app.use(limiter); // Jeder Request wird verarbeitet
 //app.use("/api/", myMw);
 //app.use("/api/mitarbeiter/", myEmployeeRouters);
-app.use("/api/add", addition);
+app.use("/api/doStuff", addition);
 
 // Erlauben des statischen Zugriffs auf den Unterordner "public", indem
 // als Middleware die Methode "static" eingesetzt wird
@@ -95,5 +96,4 @@ app.post('/testMessage', function (req, res, next) {
 app.post('/added_stuff', function (req, res, next) {
     res.send("stuff added equals " + (parseInt(req.body.number1) + parseInt(req.body.number2)) ) ; 
 });
-
 
